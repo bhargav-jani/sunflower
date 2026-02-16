@@ -1,0 +1,7 @@
+# Audio files (too large for GitHub)
+*.mp3
+*.wav
+*.m4a
+
+# macOS
+.DS_Store
