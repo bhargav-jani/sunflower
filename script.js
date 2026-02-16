@@ -7,7 +7,7 @@ function acceptContract(event) {
   contractAccepted = true;
   
   // Play song
-  currentAudio = new Audio('song.mp3'); // Replace 'song.mp3' with your song file path
+  currentAudio = new Audio('https://github.com/bhargav-jani/sunflower/releases/download/song/song.mp3');
   currentAudio.play().catch(err => console.log('Audio playback failed:', err));
   
   // Create floating hearts animation
