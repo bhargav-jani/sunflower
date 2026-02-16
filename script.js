@@ -6,9 +6,14 @@ function acceptContract(event) {
   if (contractAccepted) return;
   contractAccepted = true;
   
-  // Play song
+  // Play song - iOS requires load() before play()
   currentAudio = new Audio('https://github.com/bhargav-jani/sunflower/releases/download/song/song.mp3');
-  currentAudio.play().catch(err => console.log('Audio playback failed:', err));
+  currentAudio.load(); // Preload for iOS
+  currentAudio.play().catch(err => {
+    console.log('Audio playback failed:', err);
+    // Retry once for iOS
+    setTimeout(() => currentAudio.play().catch(e => console.log('Retry failed:', e)), 100);
+  });
   
   // Create floating hearts animation
   const button = event.target;
@@ -77,6 +82,17 @@ function showModal() {
   
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
+  
+  // Close modal on overlay click
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) {
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+      document.body.removeChild(overlay);
+    }
+  });
   
   // Make close button run away on hover
   const closeBtn = modal.querySelector('.modal-close-btn');
